@@ -11,4 +11,8 @@ dest = input("Enter Destination Path: ")
 # Runs rsync with -avp flags
 # Appends the variables taken from input for src and dest
 # Runs as if it's a bash command
-subprocess.run(["rsync", "-avP", src, dest])
+try:
+    subprocess.run(["rsync", "-avP", src, dest])
+    print("\n[+] Sync Completed Successfully!")
+except KeyboardInterrupt:
+    print("\n[!] Sync canceled by user!")
