@@ -8,10 +8,19 @@ port = "53" #DNS
 intSelection = 0
 packets = []
 
+options = {}
+
+print(f"Options (Choose an option or hint enter to begin with defaults): " )
+
 netInterfaces = os.listdir('/sys/class/net')
 for i, interface in enumerate(netInterfaces, 0):
-    print(f"Interface #{i}: {netInterfaces[i]}")
+    netInterfaces[i]
+    pass
+    #print(f"Interface #{i}: {netInterfaces[i]}")
 
+print(f"[0] Interface: {netInterfaces[intSelection]}")
+print(f"[1] Port: {port}")
+print(f"[2] Packet Count: {count}")
 
 try:
     print(f"Waiting for traffic on Interface {netInterfaces[intSelection]}...")
