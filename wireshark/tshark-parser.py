@@ -52,8 +52,18 @@ if userInput == "":
         source_dict = packet.get("_source", {})
         # Using the first layer to find and peel inner layer
         layers = source_dict.get("layers", {})
-        # Then get the DNS layer
+        # DNS Info:
         dns_layer = layers.get("dns", {})
-        # Prints i's DNS data and formats with json.dumps (will be a single packet because count is 1^^^)
-        print(f"Packet # {i} DNS Layer:\n {json.dumps(dns_layer, indent=2)}")
+        # IP Info:
+        ip_layer = layers.get("ip", {})
+        ip_src = ip_layer.get("ip.src")
+        ip_src_host = ip_layer.get("ip.src_host")
+        ip_dst = ip_layer.get("ip.dst")
+        ip_dst_host = ip_layer.get("ip.dst_host")
+
+        #print(f"Packet # {i} Info:\n {json.dumps(layers, indent=2)}")
+        print(f"Source IP: {ip_src}")
+        print(f"Source Host: {ip_src_host}")
+        print(f"Destination IP: {ip_dst}")
+        print(f"Destination Host: {ip_dst_host}")
 pass
