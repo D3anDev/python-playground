@@ -4,11 +4,21 @@ import time
 import os
 import argparse
 import utils
+import tomllib
 
-# Defaults (temporary, will read from config file to set defaults later on)
-count = "1"
-port = "53" 
-intSelection = 0  
+# Read Defaults from config
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
+
+count = config.get("DEFAULTS", {}).get("count")
+port = config.get("DEFAULTS", {}).get("port")
+intSelection = config.get("DEFAULTS", {}).get("intSelection")
+
+# Cast fix (temp)
+count = str(count)
+port = str(port)
+intSelection = int(intSelection) 
+
 packets = []
 
 # Create a set of interfaces found on host

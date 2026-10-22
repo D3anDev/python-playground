@@ -1,0 +1,4 @@
+[DEFAULTS]
+count = 1
+port = 53 
+intSelection = 0 
