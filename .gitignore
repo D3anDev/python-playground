@@ -1,1 +1,10 @@
+# Python Cache
 __pycache__/
+
+# Secrets & Config
+.env
+.env.*
+
+# Logs
+*.log
+

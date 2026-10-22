@@ -16,5 +16,5 @@ for i, ip in enumerate(ip_addresses):
     output += subprocess.run(["ping", ip, "-c", "1"], capture_output=True, text=True).stdout
 
 
-with open("log.txt", "w") as f:
+with open("output.log", "w") as f:
     f.write(output)
