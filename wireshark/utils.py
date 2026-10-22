@@ -7,7 +7,6 @@ import argparse
 def runParser(netInterfaces, count, port):
     try:
         print(f"Waiting for traffic on Interface {netInterfaces}...")
-        # Uses tshark (Wireshark cli), any interface, count of 1 packet, filters for DNS traffic, in JSON format
         output = subprocess.run(
             ["tshark", "-i", netInterfaces, "-c", count, "-f", "port " + port, "-T", "json"],
             capture_output=True,
@@ -29,10 +28,9 @@ def runParser(netInterfaces, count, port):
         time.sleep(2)
     
     for i, packet in enumerate(packets, 1):
-        # Onion Mental Model
-        # First unwrap the source layer
+        # Source layer
         source_dict = packet.get("_source", {})
-        # Using the first layer to find and peel inner layer
+        # Layers
         layers = source_dict.get("layers", {})
         # DNS Info:
         dns_layer = layers.get("dns", {})
