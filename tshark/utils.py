@@ -8,14 +8,10 @@ def runParser(netInterfaces, count, port):
     try:
         print(f"Waiting for traffic on Interface {netInterfaces}...")
         output = subprocess.run(
-            # ["tshark", "-i", netInterfaces, "-c", count, "-f", "port " + port, "-T", "json"],
-            ["tshark", "-i", netInterfaces, "-c", count, "-T", "json"],
+            ["tshark", "-i", netInterfaces, "-c", count, "-f", "port " + port, "-T", "json"],
             capture_output=True,
             text=True
         )
-        #print("Arguments Used \n", output.args)
-        #print("Errors: \n", output.stderr)
-        #print("Traffic: \n", output.stdout)
         packets = json.loads(output.stdout)
 
     except KeyboardInterrupt:
@@ -31,12 +27,16 @@ def runParser(netInterfaces, count, port):
     for i, packet in enumerate(packets, 1):
         # Source layer
         source_dict = packet.get("_source", {})
-        # Layers
+
+        # Inner Layers
         layers = source_dict.get("layers", {})
+
         # DNS Info:
         dns_layer = layers.get("dns", {})
+
         # DNS Queries
         queries_layer = dns_layer.get("Queries", {})
+
         # IP Info:
         ip_layer = layers.get("ip", {})
         ip_src = ip_layer.get("ip.src")
@@ -44,8 +44,9 @@ def runParser(netInterfaces, count, port):
         ip_dst = ip_layer.get("ip.dst")
         ip_dst_host = ip_layer.get("ip.dst_host")
 
-        print(f"Packet # {i} Info:\n {json.dumps(queries_layer, indent=2)}")
-        print(f"Source IP: {ip_src}")
-        print(f"Source Host: {ip_src_host}")
-        print(f"Destination IP: {ip_dst}")
-        print(f"Destination Host: {ip_dst_host}")
+        print(f"Packet # {i} Info:\n {json.dumps(source_dict, indent=2)}")
+
+        # print(f"Source IP: {ip_src}")
+        # print(f"Source Host: {ip_src_host}")
+        # print(f"Destination IP: {ip_dst}")
+        # print(f"Destination Host: {ip_dst_host}")
